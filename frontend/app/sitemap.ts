@@ -26,8 +26,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })
     if (res.ok) {
       const parsed: unknown = await res.json()
-      if (Array.isArray(parsed)) {
-        businessSlugs = parsed
+      const list: any[] = Array.isArray(parsed)
+        ? parsed
+        : parsed && typeof parsed === 'object' && Array.isArray((parsed as any).businesses)
+          ? (parsed as any).businesses
+          : []
+
+      if (list.length > 0) {
+        businessSlugs = list
           .map((b: any) => (typeof b?.slug === 'string' ? b.slug : ''))
           .filter(Boolean)
       }

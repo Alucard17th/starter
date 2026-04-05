@@ -53,8 +53,12 @@ async function getBusinesses(): Promise<Business[]> {
     })
     if (!res.ok) return []
     const parsed: unknown = await res.json()
-    if (!Array.isArray(parsed)) return []
-    return parsed as Business[]
+    if (Array.isArray(parsed)) return parsed as Business[]
+    if (parsed && typeof parsed === 'object') {
+      const maybeBusinesses = (parsed as any).businesses
+      if (Array.isArray(maybeBusinesses)) return maybeBusinesses as Business[]
+    }
+    return []
   } catch {
     return []
   }
