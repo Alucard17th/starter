@@ -128,7 +128,7 @@ export default function BusinessLandingClient({business}: {business: Business}) 
         </div>
         <div className="relative container">
           <div className="grid gap-12 lg:grid-cols-2 items-center py-16 lg:py-24">
-            <div className="animate-fade-in">
+            <div data-aos="fade-up">
               <h1 className="text-4xl lg:text-6xl font-bold mb-6">
                 Votre Prestataire de Services de Confiance
               </h1>
@@ -150,7 +150,7 @@ export default function BusinessLandingClient({business}: {business: Business}) 
                 </div>
               )}
             </div>
-            <div className="animate-slide-in">
+            <div data-aos="fade-left">
               <div className="bg-blue-800 bg-opacity-90 rounded-lg p-6">
                 <h3 className="text-2xl font-bold mb-4">Contact Rapide</h3>
                 <form className="space-y-4">
@@ -169,7 +169,7 @@ export default function BusinessLandingClient({business}: {business: Business}) 
       </section>
 
       {/* Why Choose Us Section */}
-      <section className="bg-white py-16 animate-on-scroll relative">
+      <section className="bg-white py-16 relative" data-aos="fade-up">
         <SectionDotsBackground />
         <div className="container relative z-10">
           <div className="text-center mb-12">
@@ -180,7 +180,7 @@ export default function BusinessLandingClient({business}: {business: Business}) 
           </div>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             {whyChooseUs.map((item, index) => (
-              <div key={item.title} className="text-center animate-fade-in" style={{animationDelay: `${index * 0.1}s`}}>
+              <div key={item.title} className="text-center" data-aos="fade-up" data-aos-delay={`${index * 100}`}>
                 <div className="flex justify-center mb-4">
                   {item.icon}
                 </div>
@@ -193,11 +193,11 @@ export default function BusinessLandingClient({business}: {business: Business}) 
       </section>
 
       {/* About Section */}
-      <section id="about" className="bg-gray-50 py-16 animate-on-scroll relative">
+      <section id="about" className="bg-gray-50 py-16 relative" data-aos="fade-up">
         <SectionDotsBackground />
         <div className="container relative z-10">
           <div className="grid gap-12 lg:grid-cols-2 items-center">
-            <div className="animate-fade-in">
+            <div data-aos="fade-up">
               <h2 className="text-4xl font-bold text-blue-900 mb-6">Leader Mondial en Plomberie & Maintenance</h2>
               <p className="text-gray-600 mb-6">
                 Avec plus d'une décennie d'expérience dans l'industrie de la plomberie, nous sommes devenus le leader mondial en fournissant des solutions complètes pour tous vos besoins de plomberie et de maintenance.
@@ -210,7 +210,7 @@ export default function BusinessLandingClient({business}: {business: Business}) 
                 <p className="text-sm text-gray-600">- Client satisfait</p>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4 animate-slide-in">
+            <div className="grid grid-cols-2 gap-4" data-aos="fade-left">
               <div className="relative group">
                 <img src="/images/about/about-1.jpg" alt="Plumbing work" className="rounded-lg w-full h-48 object-cover" loading="lazy" decoding="async" />
                 <div className="absolute top-2 right-2 bg-yellow-400 text-blue-900 px-2 py-1 rounded text-xs font-bold">
@@ -241,7 +241,7 @@ export default function BusinessLandingClient({business}: {business: Business}) 
       </section>
 
       {/* Services Section */}
-      <section id="services" className="bg-white py-16 animate-on-scroll relative">
+      <section id="services" className="bg-white py-16 relative" data-aos="fade-up">
         <SectionDotsBackground />
         <div className="container relative z-10">
           <div className="text-center mb-12">
@@ -252,7 +252,7 @@ export default function BusinessLandingClient({business}: {business: Business}) 
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {services.map((service, index) => (
-              <div key={service.title} className="bg-blue-50 rounded-lg p-6 hover:shadow-lg transition-shadow animate-fade-in" style={{animationDelay: `${index * 0.1}s`}}>
+              <div key={service.title} className="bg-blue-50 rounded-lg p-6 hover:shadow-lg transition-shadow" data-aos="fade-up" data-aos-delay={`${index * 100}`}>
                 <div className="flex justify-center mb-4">
                   <div className="text-4xl group-hover:scale-110 transition-transform">{service.icon}</div>
                 </div>
@@ -262,7 +262,7 @@ export default function BusinessLandingClient({business}: {business: Business}) 
             ))}
           </div>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center text-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center text-center mt-10">
             <a href="#contact" className="bg-yellow-400 text-blue-900 px-6 sm:px-8 py-3 rounded font-bold hover:bg-yellow-300 transition-colors">
               Voir Tous les Services
             </a>
@@ -274,7 +274,7 @@ export default function BusinessLandingClient({business}: {business: Business}) 
       </section>
 
       {/* CTA Section */}
-      <section className="bg-blue-900 text-white py-16 animate-on-scroll relative">
+      <section className="bg-blue-900 text-white py-16 relative" data-aos="fade-up">
         <SectionDotsBackground />
         <div className="container text-center relative z-10">
           <h2 className="text-4xl font-bold mb-6">Étapes Simples pour Faire le Travail</h2>
@@ -293,11 +293,11 @@ export default function BusinessLandingClient({business}: {business: Business}) 
           {/* Partner Logos */}
           <div className="flex justify-center gap-8 text-blue-300">
             {partners.map((partner) => (
-              <div key={partner} className="text-center animate-fade-in">
+              <div key={partner} className="text-center" data-aos="fade-up">
                 <div className="flex justify-center mb-2">
                   <FaCheckCircle className="text-2xl text-green-400" />
                 </div>
-                <div className="text-sm">{partner}</div>
+                <p className="text-sm">{partner}</p>
               </div>
             ))}
           </div>
@@ -305,59 +305,58 @@ export default function BusinessLandingClient({business}: {business: Business}) 
       </section>
 
       {/* Portfolio */}
-      <section className="bg-white py-16 animate-on-scroll relative">
+      <section className="bg-white py-16 relative" data-aos="fade-up">
         <SectionDotsBackground />
         <div className="container relative z-10">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-blue-900 mb-4">Nos Travaux Récents & Portfolio</h2>
-            <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-8">
-              {['Tous', 'Plomberie', 'Réparation', 'Nettoyage', 'Urgence'].map((category) => (
-                <button
-                  key={category}
-                  type="button"
-                  onClick={() => setSelectedPortfolioCategory(category)}
-                  className={`px-3 py-2 rounded text-sm transition-colors whitespace-nowrap ${
-                    selectedPortfolioCategory === category
-                      ? 'bg-blue-900 text-white'
-                      : 'hover:bg-blue-100'
-                  }`}
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
+            <p className="text-gray-600">Découvrez nos réalisations récentes et projets de plomberie</p>
           </div>
-          
-            <div className="grid gap-6 md:grid-cols-2 mb-8">
-              {filteredPortfolioItems.map((item, index) => (
-                <div key={item.title} className="bg-blue-50 rounded-lg overflow-hidden group animate-fade-in" style={{animationDelay: `${index * 0.1}s`}}>
-                  <div className="h-48 overflow-hidden">
-                    <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" decoding="async" />
-                  </div>
-                  <div className="p-6">
-                    <div className="flex justify-between items-start mb-2">
-                      <h3 className="text-xl font-bold text-blue-900">{item.title}</h3>
-                      <span className="bg-blue-900 text-white text-xs px-2 py-1 rounded">{item.category}</span>
-                    </div>
-                    <p className="text-gray-600 mb-4">Projet réalisé avec attention aux détails et selon les normes les plus élevées.</p>
-                    <a href="#contact" className="text-blue-900 font-semibold hover:text-blue-700 transition-colors inline-flex items-center gap-1">
-                      Voir les détails <FaArrowRight className="text-xs" />
-                    </a>
-                  </div>
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-8">
+            {['Tous', 'Plomberie', 'Réparation', 'Nettoyage', 'Urgence'].map((category) => (
+              <button
+                key={category}
+                type="button"
+                onClick={() => setSelectedPortfolioCategory(category)}
+                className={`px-3 py-2 rounded text-sm transition-colors whitespace-nowrap ${
+                  selectedPortfolioCategory === category
+                    ? 'bg-blue-900 text-white'
+                    : 'hover:bg-blue-100'
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+          <div className="grid gap-6 md:grid-cols-2">
+            {filteredPortfolioItems.map((item, index) => (
+              <div key={item.title} className="bg-blue-50 rounded-lg overflow-hidden group" data-aos="fade-up" data-aos-delay={`${index * 100}`}>
+                <div className="h-48 overflow-hidden">
+                  <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" decoding="async" />
                 </div>
-              ))}
-            </div>
-            
-            <div className="text-center">
-              <a href="#contact" className="bg-blue-900 text-white px-8 py-3 rounded font-bold hover:bg-blue-800 transition-colors">
-                Voir Tous les Projets
-              </a>
-            </div>
+                <div className="p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-bold text-blue-900">{item.title}</h3>
+                    <span className="bg-blue-900 text-white text-xs px-2 py-1 rounded">{item.category}</span>
+                  </div>
+                  <p className="text-gray-600 mb-4">Projet réalisé avec attention aux détails et selon les normes les plus élevées.</p>
+                  <a href="#contact" className="text-blue-900 font-semibold hover:text-blue-700 transition-colors inline-flex items-center gap-1">
+                    Voir les détails <FaArrowRight className="text-xs" />
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="text-center">
+            <a href="#contact" className="bg-blue-900 text-white px-8 py-3 rounded font-bold hover:bg-blue-800 transition-colors">
+              Voir Tous les Projets
+            </a>
+          </div>
         </div>
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="bg-gray-50 py-16 animate-on-scroll relative">
+      <section id="contact" className="bg-gray-50 py-16 relative" data-aos="fade-up">
         <SectionDotsBackground />
         <div className="container relative z-10">
           <div className="text-center mb-12">
@@ -366,9 +365,8 @@ export default function BusinessLandingClient({business}: {business: Business}) 
               Contactez-nous dès aujourd'hui pour un devis gratuit et sans obligation
             </p>
           </div>
-          
           <div className="grid gap-12 lg:grid-cols-2">
-            <div className="animate-fade-in">
+            <div data-aos="fade-up">
               <h3 className="text-2xl font-bold text-blue-900 mb-6">Informations de Contact</h3>
               <div className="space-y-4">
                 {hasPhone && (
@@ -399,7 +397,7 @@ export default function BusinessLandingClient({business}: {business: Business}) 
               </div>
             </div>
             
-            <div className="animate-slide-in">
+            <div data-aos="fade-left">
               <form className="space-y-4">
                 <div className="grid gap-4 md:grid-cols-2">
                   <input type="text" placeholder="Nom" className="px-4 py-3 rounded bg-white border border-gray-300 focus:border-blue-500 focus:outline-none" />
@@ -425,7 +423,7 @@ export default function BusinessLandingClient({business}: {business: Business}) 
 
       {/* Testimonials */}
       {reviews.length > 0 && (
-        <section className="bg-white py-16 animate-on-scroll relative">
+        <section className="bg-white py-16 relative" data-aos="fade-up">
           <SectionDotsBackground />
           <div className="container relative z-10">
             <div className="text-center mb-12">
@@ -434,7 +432,7 @@ export default function BusinessLandingClient({business}: {business: Business}) 
             </div>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {reviews.map((review, index) => (
-                <div key={index} className="bg-gray-50 p-6 rounded-lg animate-fade-in" style={{animationDelay: `${index * 0.1}s`}}>
+                <div key={index} className="bg-gray-50 p-6 rounded-lg" data-aos="fade-up" data-aos-delay={`${index * 100}`}>
                   <div className="flex items-center gap-1 mb-4">
                     {[...Array(5)].map((_, i) => {
                       const parsed = Number.parseInt(String(review.rating), 10)
