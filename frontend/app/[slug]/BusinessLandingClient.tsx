@@ -152,12 +152,19 @@ export default function BusinessLandingClient({business}: {business: Business}) 
             </div>
             <div data-aos="fade-left">
               <div className="bg-blue-800 bg-opacity-90 rounded-lg p-6">
-                <h3 className="text-2xl font-bold mb-4">Contact Rapide</h3>
+                <h2 className="text-2xl font-bold mb-4">Contact Rapide</h2>
                 <form className="space-y-4">
-                  <input type="text" placeholder="Nom" className="w-full px-4 py-3 rounded bg-blue-700 text-white placeholder-blue-300 border border-blue-600 focus:border-yellow-400 focus:outline-none" />
-                  <input type="email" placeholder="Email" className="w-full px-4 py-3 rounded bg-blue-700 text-white placeholder-blue-300 border border-blue-600 focus:border-yellow-400 focus:outline-none" />
-                  <input type="tel" placeholder="Téléphone" className="w-full px-4 py-3 rounded bg-blue-700 text-white placeholder-blue-300 border border-blue-600 focus:border-yellow-400 focus:outline-none" />
-                  <textarea placeholder="Décrivez votre besoin..." rows={3} className="w-full px-4 py-3 rounded bg-blue-700 text-white placeholder-blue-300 border border-blue-600 focus:border-yellow-400 focus:outline-none resize-none" />
+                  <label htmlFor="quick-contact-name" className="sr-only">Nom</label>
+                  <input id="quick-contact-name" type="text" placeholder="Nom" className="w-full px-4 py-3 rounded bg-blue-700 text-white placeholder-blue-300 border border-blue-600 focus:border-yellow-400 focus:outline-none" />
+
+                  <label htmlFor="quick-contact-email" className="sr-only">Email</label>
+                  <input id="quick-contact-email" type="email" placeholder="Email" className="w-full px-4 py-3 rounded bg-blue-700 text-white placeholder-blue-300 border border-blue-600 focus:border-yellow-400 focus:outline-none" />
+
+                  <label htmlFor="quick-contact-phone" className="sr-only">Téléphone</label>
+                  <input id="quick-contact-phone" type="tel" placeholder="Téléphone" className="w-full px-4 py-3 rounded bg-blue-700 text-white placeholder-blue-300 border border-blue-600 focus:border-yellow-400 focus:outline-none" />
+
+                  <label htmlFor="quick-contact-message" className="sr-only">Décrivez votre besoin</label>
+                  <textarea id="quick-contact-message" placeholder="Décrivez votre besoin..." rows={3} className="w-full px-4 py-3 rounded bg-blue-700 text-white placeholder-blue-300 border border-blue-600 focus:border-yellow-400 focus:outline-none resize-none" />
                   <button type="submit" className="w-full bg-yellow-400 text-blue-900 px-6 py-3 rounded font-bold hover:bg-yellow-300 transition-colors cursor-pointer">
                     Envoyer la Demande
                   </button>
@@ -400,18 +407,31 @@ export default function BusinessLandingClient({business}: {business: Business}) 
             <div data-aos="fade-left">
               <form className="space-y-4">
                 <div className="grid gap-4 md:grid-cols-2">
-                  <input type="text" placeholder="Nom" className="px-4 py-3 rounded bg-white border border-gray-300 focus:border-blue-500 focus:outline-none" />
-                  <input type="email" placeholder="Email" className="px-4 py-3 rounded bg-white border border-gray-300 focus:border-blue-500 focus:outline-none" />
+                  <div className="grid">
+                    <label htmlFor="contact-name" className="sr-only">Nom</label>
+                    <input id="contact-name" type="text" placeholder="Nom" className="px-4 py-3 rounded bg-white border border-gray-300 focus:border-blue-500 focus:outline-none" />
+                  </div>
+                  <div className="grid">
+                    <label htmlFor="contact-email" className="sr-only">Email</label>
+                    <input id="contact-email" type="email" placeholder="Email" className="px-4 py-3 rounded bg-white border border-gray-300 focus:border-blue-500 focus:outline-none" />
+                  </div>
                 </div>
-                <input type="tel" placeholder="Téléphone" className="px-4 py-3 rounded bg-white border border-gray-300 focus:border-blue-500 focus:outline-none" />
-                <select className="px-4 py-3 rounded bg-white border border-gray-300 focus:border-blue-500 focus:outline-none">
+                <label htmlFor="contact-phone" className="sr-only">Téléphone</label>
+                <input id="contact-phone" type="tel" placeholder="Téléphone" className="px-4 py-3 rounded bg-white border border-gray-300 focus:border-blue-500 focus:outline-none" />
+
+                <label htmlFor="contact-service" className="sr-only">Service</label>
+                <select id="contact-service" className="px-4 py-3 rounded bg-white border border-gray-300 focus:border-blue-500 focus:outline-none">
                   <option>Sélectionner un Service</option>
                   <option>Dépannage d'urgence</option>
                   <option>Installation</option>
                   <option>Maintenance</option>
                 </select>
-                <input type="date" className="px-4 py-3 rounded bg-white border border-gray-300 focus:border-blue-500 focus:outline-none" />
-                <input type="time" className="px-4 py-3 rounded bg-white border border-gray-300 focus:border-blue-500 focus:outline-none" />
+
+                <label htmlFor="contact-date" className="sr-only">Date</label>
+                <input id="contact-date" type="date" className="px-4 py-3 rounded bg-white border border-gray-300 focus:border-blue-500 focus:outline-none" />
+
+                <label htmlFor="contact-time" className="sr-only">Heure</label>
+                <input id="contact-time" type="time" className="px-4 py-3 rounded bg-white border border-gray-300 focus:border-blue-500 focus:outline-none" />
                 <button type="submit" className="w-full bg-yellow-400 text-blue-900 px-6 py-3 rounded font-bold hover:bg-yellow-300 transition-colors cursor-pointer">
                   Soumettre la Demande
                 </button>
