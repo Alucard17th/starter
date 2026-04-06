@@ -124,7 +124,13 @@ export default function BusinessLandingClient({business}: {business: Business}) 
       {/* Hero Section */}
       <section className="bg-blue-900 text-white relative overflow-hidden">
         <div className="absolute inset-0">
-          <img src="/images/hero/hero.jpg" alt="Plumber working" className="w-full h-full object-cover opacity-20" />
+          <img
+            src="/images/hero/hero.jpg"
+            alt="Plumber working"
+            className="w-full h-full object-cover opacity-20"
+            fetchPriority="high"
+            decoding="async"
+          />
         </div>
         <div className="relative container">
           <div className="grid gap-12 lg:grid-cols-2 items-center py-16 lg:py-24">
