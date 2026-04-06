@@ -1,8 +1,11 @@
 'use client'
 
 import {useEffect} from 'react'
+import {usePathname} from 'next/navigation'
 
 export default function ScrollAnimations() {
+  const pathname = usePathname()
+
   useEffect(() => {
     const observerOptions = {
       threshold: 0.1,
@@ -20,10 +23,19 @@ export default function ScrollAnimations() {
     const elements = document.querySelectorAll('.animate-on-scroll')
     elements.forEach((el) => observer.observe(el))
 
+    // If elements are already in view (common after client-side navigation),
+    // force them visible so they don't remain stuck at opacity: 0.
+    elements.forEach((el) => {
+      const rect = el.getBoundingClientRect()
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        el.classList.add('visible')
+      }
+    })
+
     return () => {
-      elements.forEach((el) => observer.unobserve(el))
+      observer.disconnect()
     }
-  }, [])
+  }, [pathname])
 
   return (
     <style jsx global>{`
