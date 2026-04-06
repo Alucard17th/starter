@@ -212,25 +212,25 @@ export default function BusinessLandingClient({business}: {business: Business}) 
             </div>
             <div className="grid grid-cols-2 gap-4 animate-slide-in">
               <div className="relative group">
-                <img src="/images/about/about-1.jpg" alt="Plumbing work" className="rounded-lg w-full h-48 object-cover" />
+                <img src="/images/about/about-1.jpg" alt="Plumbing work" className="rounded-lg w-full h-48 object-cover" loading="lazy" decoding="async" />
                 <div className="absolute top-2 right-2 bg-yellow-400 text-blue-900 px-2 py-1 rounded text-xs font-bold">
                   Certifié
                 </div>
               </div>
               <div className="relative group">
-                <img src="/images/about/about-2.jpg" alt="Professional team" className="rounded-lg w-full h-48 object-cover" />
+                <img src="/images/about/about-2.jpg" alt="Professional team" className="rounded-lg w-full h-48 object-cover" loading="lazy" decoding="async" />
                 <div className="absolute top-2 right-2 bg-green-400 text-white px-2 py-1 rounded text-xs font-bold">
                   Expert
                 </div>
               </div>
               <div className="relative group">
-                <img src="/images/about/about-3.jpg" alt="Quality work" className="rounded-lg w-full h-48 object-cover" />
+                <img src="/images/about/about-3.jpg" alt="Quality work" className="rounded-lg w-full h-48 object-cover" loading="lazy" decoding="async" />
                 <div className="absolute top-2 right-2 bg-blue-400 text-white px-2 py-1 rounded text-xs font-bold">
                   Professionnel
                 </div>
               </div>
               <div className="relative group">
-                <img src="/images/about/about-4.jpg" alt="Guaranteed service" className="rounded-lg w-full h-48 object-cover" />
+                <img src="/images/about/about-4.jpg" alt="Guaranteed service" className="rounded-lg w-full h-48 object-cover" loading="lazy" decoding="async" />
                 <div className="absolute top-2 right-2 bg-red-400 text-white px-2 py-1 rounded text-xs font-bold">
                   Garanti
                 </div>
@@ -332,7 +332,7 @@ export default function BusinessLandingClient({business}: {business: Business}) 
               {filteredPortfolioItems.map((item, index) => (
                 <div key={item.title} className="bg-blue-50 rounded-lg overflow-hidden group animate-fade-in" style={{animationDelay: `${index * 0.1}s`}}>
                   <div className="h-48 overflow-hidden">
-                    <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                    <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" decoding="async" />
                   </div>
                   <div className="p-6">
                     <div className="flex justify-between items-start mb-2">

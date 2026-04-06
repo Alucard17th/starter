@@ -7,6 +7,7 @@ export default function SectionDotsBackground() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const rafRef = useRef<number | null>(null)
   const resizeObserverRef = useRef<ResizeObserver | null>(null)
+  const visibilityObserverRef = useRef<IntersectionObserver | null>(null)
 
   useEffect(() => {
     setMounted(true)
@@ -33,7 +34,16 @@ export default function SectionDotsBackground() {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    const dpr = Math.max(1, Math.floor(window.devicePixelRatio || 1))
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      'matchMedia' in window &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const isSmallScreen =
+      typeof window !== 'undefined' &&
+      'matchMedia' in window &&
+      window.matchMedia('(max-width: 640px)').matches
+
+    const dpr = prefersReducedMotion || isSmallScreen ? 1 : Math.max(1, Math.floor(window.devicePixelRatio || 1))
 
     type Particle = {
       x: number
@@ -48,6 +58,7 @@ export default function SectionDotsBackground() {
     let width = 0
     let height = 0
     const particles: Particle[] = []
+    let running = true
 
     const resize = () => {
       const rect = parent.getBoundingClientRect()
@@ -63,7 +74,9 @@ export default function SectionDotsBackground() {
 
       // Re-seed particles on resize for a fresh pattern per section.
       particles.length = 0
-      const count = Math.min(46, Math.max(18, Math.floor((width * height) / 42000)))
+      const baseCount = prefersReducedMotion || isSmallScreen ? 18 : 46
+      const density = prefersReducedMotion || isSmallScreen ? 68000 : 42000
+      const count = Math.min(baseCount, Math.max(12, Math.floor((width * height) / density)))
       for (let i = 0; i < count; i += 1) {
         const c = palette[Math.floor(Math.random() * palette.length)]
         particles.push({
@@ -87,6 +100,7 @@ export default function SectionDotsBackground() {
 
     let lastTs = performance.now()
     const tick = (ts: number) => {
+      if (!running) return
       const dt = Math.min(34, ts - lastTs)
       lastTs = ts
 
@@ -106,8 +120,8 @@ export default function SectionDotsBackground() {
 
         ctx.beginPath()
         ctx.fillStyle = `rgba(${p.color.r}, ${p.color.g}, ${p.color.b}, ${p.alpha})`
-        ctx.shadowColor = 'rgba(59, 130, 246, 0.25)'
-        ctx.shadowBlur = 10
+        ctx.shadowColor = prefersReducedMotion || isSmallScreen ? 'transparent' : 'rgba(59, 130, 246, 0.25)'
+        ctx.shadowBlur = prefersReducedMotion || isSmallScreen ? 0 : 10
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2)
         ctx.fill()
       }
@@ -117,6 +131,28 @@ export default function SectionDotsBackground() {
 
     rafRef.current = window.requestAnimationFrame(tick)
 
+    visibilityObserverRef.current = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0]
+        if (!entry) return
+        if (entry.isIntersecting) {
+          if (!running) {
+            running = true
+            lastTs = performance.now()
+            rafRef.current = window.requestAnimationFrame(tick)
+          }
+        } else {
+          running = false
+          if (rafRef.current != null) {
+            window.cancelAnimationFrame(rafRef.current)
+          }
+          rafRef.current = null
+        }
+      },
+      {threshold: 0.01},
+    )
+    visibilityObserverRef.current.observe(parent)
+
     return () => {
       if (rafRef.current != null) {
         window.cancelAnimationFrame(rafRef.current)
@@ -124,6 +160,8 @@ export default function SectionDotsBackground() {
       rafRef.current = null
       resizeObserverRef.current?.disconnect()
       resizeObserverRef.current = null
+      visibilityObserverRef.current?.disconnect()
+      visibilityObserverRef.current = null
     }
   }, [mounted, palette])
 
