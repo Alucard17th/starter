@@ -108,10 +108,10 @@ export default async function RootLayout({children}: {children: React.ReactNode}
               <DraftModeToast />
               {/*  Enable Visual Editing, only to be rendered when Draft Mode is enabled */}
               <VisualEditing />
+              {/* Enable Sanity Live only in Draft Mode to avoid public-site CORS toasts */}
+              <SanityLive onError={handleError} />
             </>
           )}
-          {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live, so should always be rendered. */}
-          <SanityLive onError={handleError} />
           <BusinessLayout>{children}</BusinessLayout>
         </section>
         <SpeedInsights />
