@@ -361,7 +361,10 @@ export default function BusinessLandingClient({business}: {business: Business}) 
             ))}
           </div>
           <div className="text-center">
-            <a href="#contact" className="bg-blue-900 text-white px-8 py-3 rounded font-bold hover:bg-blue-800 transition-colors">
+            <a
+              href="#contact"
+              className="inline-block mt-10 bg-blue-900 text-white px-8 py-3 rounded font-bold hover:bg-blue-800 transition-colors"
+            >
               Voir Tous les Projets
             </a>
           </div>
