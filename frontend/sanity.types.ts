@@ -127,6 +127,83 @@ export type Button = {
   link?: Link
 }
 
+export type BusinessOverride = {
+  _id: string
+  _type: 'businessOverride'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name: string
+  slug: Slug
+  heroTitle?: string
+  heroSubtitle?: string
+  heroImage?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  aboutTitle?: string
+  aboutParagraph1?: string
+  aboutParagraph2?: string
+  servicesTitle?: string
+  servicesSubtitle?: string
+  ctaTitle?: string
+  ctaSubtitle?: string
+  portfolioTitle?: string
+  portfolioSubtitle?: string
+  contactTitle?: string
+  contactSubtitle?: string
+  testimonialsTitle?: string
+  testimonialsSubtitle?: string
+  aboutImages?: Array<{
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+    _key: string
+  }>
+  portfolioItems?: Array<{
+    title?: string
+    category?: string
+    image?: {
+      asset?: SanityImageAssetReference
+      media?: unknown
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      alt?: string
+      _type: 'image'
+    }
+    _key: string
+  }>
+}
+
+export type SanityImageCrop = {
+  _type: 'sanity.imageCrop'
+  top: number
+  bottom: number
+  left: number
+  right: number
+}
+
+export type SanityImageHotspot = {
+  _type: 'sanity.imageHotspot'
+  x: number
+  y: number
+  height: number
+  width: number
+}
+
+export type Slug = {
+  _type: 'slug'
+  current: string
+  source?: string
+}
+
 export type Settings = {
   _id: string
   _type: 'settings'
@@ -165,22 +242,6 @@ export type Settings = {
     metadataBase?: string
     _type: 'image'
   }
-}
-
-export type SanityImageCrop = {
-  _type: 'sanity.imageCrop'
-  top: number
-  bottom: number
-  left: number
-  right: number
-}
-
-export type SanityImageHotspot = {
-  _type: 'sanity.imageHotspot'
-  x: number
-  y: number
-  height: number
-  width: number
 }
 
 export type Page = {
@@ -248,12 +309,6 @@ export type Person = {
     alt?: string
     _type: 'image'
   }
-}
-
-export type Slug = {
-  _type: 'slug'
-  current: string
-  source?: string
 }
 
 export type SanityAssistInstructionTask = {
@@ -500,14 +555,15 @@ export type AllSanitySchemaTypes =
   | BlockContentTextOnly
   | BlockContent
   | Button
-  | Settings
+  | BusinessOverride
   | SanityImageCrop
   | SanityImageHotspot
+  | Slug
+  | Settings
   | Page
   | PersonReference
   | Post
   | Person
-  | Slug
   | SanityAssistInstructionTask
   | SanityAssistTaskStatus
   | SanityAssistSchemaTypeAnnotations
@@ -652,6 +708,59 @@ export type GetPageQueryResult = {
         > | null
       }
   > | null
+} | null
+
+// Source: sanity/lib/queries.ts
+// Variable: getBusinessOverrideQuery
+// Query: *[_type == "businessOverride" && slug.current == $slug][0]{    _id,    name,    slug,    heroTitle,    heroSubtitle,    heroImage,    aboutTitle,    aboutParagraph1,    aboutParagraph2,    servicesTitle,    servicesSubtitle,    ctaTitle,    ctaSubtitle,    portfolioTitle,    portfolioSubtitle,    contactTitle,    contactSubtitle,    testimonialsTitle,    testimonialsSubtitle,    aboutImages,    portfolioItems[]{      title,      category,      image,    },  }
+export type GetBusinessOverrideQueryResult = {
+  _id: string
+  name: string
+  slug: Slug
+  heroTitle: string | null
+  heroSubtitle: string | null
+  heroImage: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  } | null
+  aboutTitle: string | null
+  aboutParagraph1: string | null
+  aboutParagraph2: string | null
+  servicesTitle: string | null
+  servicesSubtitle: string | null
+  ctaTitle: string | null
+  ctaSubtitle: string | null
+  portfolioTitle: string | null
+  portfolioSubtitle: string | null
+  contactTitle: string | null
+  contactSubtitle: string | null
+  testimonialsTitle: string | null
+  testimonialsSubtitle: string | null
+  aboutImages: Array<{
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+    _key: string
+  }> | null
+  portfolioItems: Array<{
+    title: string | null
+    category: string | null
+    image: {
+      asset?: SanityImageAssetReference
+      media?: unknown
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      alt?: string
+      _type: 'image'
+    } | null
+  }> | null
 } | null
 
 // Source: sanity/lib/queries.ts
@@ -819,6 +928,7 @@ declare module '@sanity/client' {
   interface SanityQueries {
     '*[_type == "settings"][0]': SettingsQueryResult
     '\n  *[_type == \'page\' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    heading,\n    subheading,\n    "pageBuilder": pageBuilder[]{\n      ...,\n      _type == "callToAction" => {\n        ...,\n        button {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n        }\n      },\n      _type == "infoSection" => {\n        content[]{\n          ...,\n          markDefs[]{\n            ...,\n            \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n          }\n        }\n      },\n    },\n  }\n': GetPageQueryResult
+    '\n  *[_type == "businessOverride" && slug.current == $slug][0]{\n    _id,\n    name,\n    slug,\n    heroTitle,\n    heroSubtitle,\n    heroImage,\n    aboutTitle,\n    aboutParagraph1,\n    aboutParagraph2,\n    servicesTitle,\n    servicesSubtitle,\n    ctaTitle,\n    ctaSubtitle,\n    portfolioTitle,\n    portfolioSubtitle,\n    contactTitle,\n    contactSubtitle,\n    testimonialsTitle,\n    testimonialsSubtitle,\n    aboutImages,\n    portfolioItems[]{\n      title,\n      category,\n      image,\n    },\n  }\n': GetBusinessOverrideQueryResult
     '\n  *[_type == "page" || _type == "post" && defined(slug.current)] | order(_type asc) {\n    "slug": slug.current,\n    _type,\n    _updatedAt,\n  }\n': SitemapDataResult
     '\n  *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName, picture},\n\n  }\n': AllPostsQueryResult
     '\n  *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName, picture},\n\n  }\n': MorePostsQueryResult

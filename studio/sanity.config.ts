@@ -38,6 +38,8 @@ function resolveHref(documentType?: string, slug?: string): string | undefined {
       return slug ? `/posts/${slug}` : undefined
     case 'page':
       return slug ? `/${slug}` : undefined
+    case 'businessOverride':
+      return slug ? `/${slug}` : undefined
     default:
       console.warn('Invalid document type:', documentType)
       return undefined
@@ -70,7 +72,7 @@ export default defineConfig({
           },
           {
             route: '/:slug',
-            filter: `_type == "page" && slug.current == $slug || _id == $slug`,
+            filter: `(_type == "page" && slug.current == $slug) || (_type == "businessOverride" && slug.current == $slug) || _id == $slug`,
           },
           {
             route: '/posts/:slug',
@@ -94,6 +96,20 @@ export default defineConfig({
                 {
                   title: doc?.name || 'Untitled',
                   href: resolveHref('page', doc?.slug)!,
+                },
+              ],
+            }),
+          }),
+          businessOverride: defineLocations({
+            select: {
+              name: 'name',
+              slug: 'slug.current',
+            },
+            resolve: (doc) => ({
+              locations: [
+                {
+                  title: doc?.name || 'Untitled',
+                  href: resolveHref('businessOverride', doc?.slug)!,
                 },
               ],
             }),

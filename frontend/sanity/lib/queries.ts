@@ -57,6 +57,38 @@ export const getPageQuery = defineQuery(`
   }
 `)
 
+export const getBusinessOverrideQuery = defineQuery(`
+  *[_type == "businessOverride" && slug.current == $slug][0]{
+    _id,
+    name,
+    slug,
+    primaryColor,
+    accentColor,
+    heroTitle,
+    heroSubtitle,
+    heroImage,
+    aboutTitle,
+    aboutParagraph1,
+    aboutParagraph2,
+    servicesTitle,
+    servicesSubtitle,
+    ctaTitle,
+    ctaSubtitle,
+    portfolioTitle,
+    portfolioSubtitle,
+    contactTitle,
+    contactSubtitle,
+    testimonialsTitle,
+    testimonialsSubtitle,
+    aboutImages,
+    portfolioItems[]{
+      title,
+      category,
+      image,
+    },
+  }
+`)
+
 export const sitemapData = defineQuery(`
   *[_type == "page" || _type == "post" && defined(slug.current)] | order(_type asc) {
     "slug": slug.current,

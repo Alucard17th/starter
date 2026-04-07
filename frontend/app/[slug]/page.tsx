@@ -4,10 +4,12 @@ import { FaTools, FaBolt, FaCheckCircle, FaPhone, FaEnvelope, FaMapMarkerAlt, Fa
 
 import PageBuilderPage from '@/app/components/PageBuilder'
 import {sanityFetch} from '@/sanity/lib/live'
-import {getPageQuery, pagesSlugs} from '@/sanity/lib/queries'
+import {getBusinessOverrideQuery, getPageQuery, pagesSlugs} from '@/sanity/lib/queries'
 import {GetPageQueryResult} from '@/sanity.types'
 import {PageOnboarding} from '@/app/components/Onboarding'
 import BusinessLandingClient from './BusinessLandingClient'
+import imageUrlBuilder from '@sanity/image-url'
+import {dataset, projectId} from '@/sanity/lib/api'
 
 type Props = {
   params: Promise<{slug: string}>
@@ -30,6 +32,82 @@ type Business = {
   website: string
   address: string
   whatsappSent: boolean
+
+  overrideId?: string
+
+  primaryColor?: string
+  accentColor?: string
+
+  heroTitle?: string
+  heroSubtitle?: string
+  heroImageUrl?: string
+
+  aboutTitle?: string
+  aboutParagraph1?: string
+  aboutParagraph2?: string
+  aboutImageUrls?: {src: string; alt?: string}[]
+
+  servicesTitle?: string
+  servicesSubtitle?: string
+
+  ctaTitle?: string
+  ctaSubtitle?: string
+
+  portfolioTitle?: string
+  portfolioSubtitle?: string
+  portfolioItemsOverride?: {title?: string; category?: string; image?: string; alt?: string}[]
+
+  contactTitle?: string
+  contactSubtitle?: string
+
+  testimonialsTitle?: string
+  testimonialsSubtitle?: string
+}
+
+type BusinessOverride = {
+  primaryColor?: string
+  accentColor?: string
+  heroTitle?: string
+  heroSubtitle?: string
+  heroImage?: any
+  aboutTitle?: string
+  aboutParagraph1?: string
+  aboutParagraph2?: string
+  servicesTitle?: string
+  servicesSubtitle?: string
+  ctaTitle?: string
+  ctaSubtitle?: string
+  portfolioTitle?: string
+  portfolioSubtitle?: string
+  contactTitle?: string
+  contactSubtitle?: string
+  testimonialsTitle?: string
+  testimonialsSubtitle?: string
+  aboutImages?: any[]
+  portfolioItems?: {title?: string; category?: string; image?: any}[]
+}
+
+const urlBuilder = imageUrlBuilder({
+  projectId: projectId || '',
+  dataset: dataset || '',
+})
+
+function toImageUrl(image: any, width = 1600) {
+  try {
+    const url = urlBuilder.image(image).width(width).fit('max').auto('format').url()
+    return url || null
+  } catch {
+    return null
+  }
+}
+
+async function getBusinessOverrideBySlug(slug: string): Promise<BusinessOverride | null> {
+  const {data} = await sanityFetch({
+    query: getBusinessOverrideQuery,
+    params: {slug},
+    stega: false,
+  })
+  return (data as BusinessOverride | null) || null
 }
 
 async function getBusinesses(): Promise<Business[]> {
@@ -185,7 +263,60 @@ export default async function Page(props: Props) {
 
   const business = await getBusinessBySlug(params.slug)
   if (business) {
-    return <BusinessLandingClient business={business} />
+    const override = await getBusinessOverrideBySlug(params.slug)
+
+    const heroImageUrl = override?.heroImage ? toImageUrl(override.heroImage, 2400) : null
+
+    const aboutImageUrls = Array.isArray(override?.aboutImages)
+      ? override!.aboutImages
+          .map((img) => {
+            const src = img ? toImageUrl(img, 1200) : null
+            if (!src) return null
+            return {src, alt: img?.alt}
+          })
+          .filter(Boolean)
+      : null
+
+    const portfolioItemsOverride = Array.isArray(override?.portfolioItems)
+      ? override!.portfolioItems
+          .map((item) => {
+            const image = item?.image ? toImageUrl(item.image, 1200) : null
+            return {
+              title: item?.title,
+              category: item?.category,
+              image: image || undefined,
+              alt: item?.image?.alt,
+            }
+          })
+          .filter((i) => Boolean(i.title || i.category || i.image))
+      : null
+
+    const mergedBusiness: Business = {
+      ...business,
+      overrideId: (override as any)?._id || undefined,
+      primaryColor: override?.primaryColor || undefined,
+      accentColor: override?.accentColor || undefined,
+      heroTitle: override?.heroTitle || undefined,
+      heroSubtitle: override?.heroSubtitle || undefined,
+      heroImageUrl: heroImageUrl || undefined,
+      aboutTitle: override?.aboutTitle || undefined,
+      aboutParagraph1: override?.aboutParagraph1 || undefined,
+      aboutParagraph2: override?.aboutParagraph2 || undefined,
+      aboutImageUrls: (aboutImageUrls as any) || undefined,
+      servicesTitle: override?.servicesTitle || undefined,
+      servicesSubtitle: override?.servicesSubtitle || undefined,
+      ctaTitle: override?.ctaTitle || undefined,
+      ctaSubtitle: override?.ctaSubtitle || undefined,
+      portfolioTitle: override?.portfolioTitle || undefined,
+      portfolioSubtitle: override?.portfolioSubtitle || undefined,
+      portfolioItemsOverride: (portfolioItemsOverride as any) || undefined,
+      contactTitle: override?.contactTitle || undefined,
+      contactSubtitle: override?.contactSubtitle || undefined,
+      testimonialsTitle: override?.testimonialsTitle || undefined,
+      testimonialsSubtitle: override?.testimonialsSubtitle || undefined,
+    }
+
+    return <BusinessLandingClient business={mergedBusiness} />
   }
 
   const [{data: page}] = await Promise.all([sanityFetch({query: getPageQuery, params})])
