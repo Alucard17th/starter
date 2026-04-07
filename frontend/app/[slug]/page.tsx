@@ -59,8 +59,13 @@ async function getBusinessBySlug(slug: string): Promise<Business | null> {
     })
     if (!res.ok) return null
     const parsed: unknown = await res.json()
-    if (!parsed || typeof parsed !== 'object') return null
-    return parsed as Business
+    if (!parsed) return null
+    if (typeof parsed === 'object') {
+      const maybeBusiness = (parsed as any).business
+      if (maybeBusiness && typeof maybeBusiness === 'object') return maybeBusiness as Business
+      return parsed as Business
+    }
+    return null
   } catch {
     return null
   }
